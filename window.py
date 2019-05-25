@@ -231,8 +231,8 @@ def win_watch_result(window, exam, fun_print):
             fobj = filedialog.asksaveasfile()
             fobj.write(text.get(1.0, 'end'))
             fobj.close()
-        except Exception:
-            messagebox.showerror('警告', '保存失败')
+        except Exception as error:
+            messagebox.showerror('警告', f'保存失败:{error}')
         else:
             messagebox.showinfo('提示', '保存成功')
 
@@ -254,7 +254,7 @@ def win_exam(window, question_list):
     question_num = len(question_list)
     result = [''] * question_num  # 存放作答
     text = tk.StringVar()
-    question = tk.Label(window, textvariable=text)
+    question = tk.Label(window, textvariable=text, wraplength=300)
     text.set(f'第{index}/{question_num}题:{question_list[index - 1][0]}')
     question_result = tk.StringVar()
     question_input = tk.Entry(window, textvariable=question_result)
