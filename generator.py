@@ -10,7 +10,10 @@ def make_a_question(operation_range, opeartions, nums, brackets):
         for _ in range(nums):
             num = random.randint(-operation_range, operation_range)
             oper = random.choice(opeartions)
-            question.append(str(num))
+            if num < 0:
+                question.append('(' + str(num) + ')')
+            else:
+                question.append(str(num))
             question.append(oper)
         # 去掉最后的符号
         del question[-1]
@@ -26,13 +29,14 @@ def make_a_question(operation_range, opeartions, nums, brackets):
             question.insert(index[1] * 2 + 1, ')')
             question.insert(index[0] * 2, '(')
 
-        return ' '.join(question)
+        return ''.join(question)
 
     ret = None
     while True:
         a_question = uncheck_question()
         try:
             ret = eval(a_question)
+            ret = '%.2f' % ret
         except ZeroDivisionError:
             continue
         break
@@ -50,7 +54,7 @@ def generator_question(operation_range, opeartions, number):
     try:
         operation_range = int(operation_range)
     except ValueError:
-        return '运算范围应是一个数字'
+        return '运算范围应是一个整数'
     if operation_range < 5:
         return '运算范围不能小于5'
     if not opeartions:
@@ -73,12 +77,13 @@ def check_question(question_list, q_result):
     """批改题目"""
     number = len(question_list)
     result = [False] * number
-    pattern = re.compile(r'^[-\+*/ \d\(\)]+$')
+    pattern = re.compile(r'^[-\+*/ \.\d\(\)]+$')
     for index in range(number):
         ret = pattern.match(q_result[index])
         if ret is not None:
             try:
                 ret = eval(ret.group())
+                ret = '%.2f' % ret
             except ZeroDivisionError:
                 pass
             if ret == question_list[index][1]:
