@@ -36,7 +36,8 @@ def make_a_question(operation_range, opeartions, nums, brackets):
         a_question = uncheck_question()
         try:
             ret = eval(a_question)
-            ret = '%.2f' % ret
+            if int(ret) != ret:
+                continue
         except ZeroDivisionError:
             continue
         break
@@ -83,7 +84,6 @@ def check_question(question_list, q_result):
         if ret is not None:
             try:
                 ret = eval(ret.group())
-                ret = '%.2f' % ret
             except ZeroDivisionError:
                 pass
             if ret == question_list[index][1]:
