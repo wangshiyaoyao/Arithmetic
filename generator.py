@@ -5,16 +5,17 @@ import re
 
 def make_a_question(operation_range, opeartions, nums, brackets):
     """生成一道题目"""
+    opers = [random.choice(opeartions) for _ in range(nums)]
+
     def uncheck_question():
         question = []
-        for _ in range(nums):
-            num = random.randint(-operation_range, operation_range)
-            oper = random.choice(opeartions)
+        for i in range(nums):
+            num = random.randint(0, operation_range)
             if num < 0:
                 question.append('(' + str(num) + ')')
             else:
                 question.append(str(num))
-            question.append(oper)
+            question.append(opers[i])
         # 去掉最后的符号
         del question[-1]
 
